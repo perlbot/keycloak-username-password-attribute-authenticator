@@ -19,9 +19,16 @@ jobs:
       - name: Set version from git tag
         run: mvn -B -ntp versions:set -DgenerateBackupPoms=false -DnewVersion="$TAG"
 
+      - name: Publish maven package
+        run: |
+          mvn \
+          --no-transfer-progress \
+          --batch-mode \
+          clean build
+
       - name: Add jar to Github Release
         uses: svenstaro/upload-release-action@v2
-        continue-on-error: true
+        continue-on-error: false
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/keycloak-username-password-attribute-authenticator-${{ env.TAG }}.jar
