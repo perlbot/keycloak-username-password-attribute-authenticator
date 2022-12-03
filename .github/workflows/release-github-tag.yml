@@ -24,7 +24,7 @@ jobs:
           mvn \
           --no-transfer-progress \
           --batch-mode \
-          clean build
+          clean package
 
       - name: Add jar to Github Release
         uses: svenstaro/upload-release-action@v2
