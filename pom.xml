@@ -7,24 +7,24 @@
     <name>Keycloak username password attribute authenticator</name>
 
     <artifactId>keycloak-username-password-attribute-authenticator</artifactId>
-    <groupId>io.github.kilmajster</groupId>
+    <groupId>io.github.perlbot</groupId>
     <version>SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
     <description>Default Keycloak login form with additional user attribute validation️</description>
-    <url>https://github.com/kilmajster/keycloak-username-password-attribute-authenticator</url>
+    <url>https://github.com/perlbot/keycloak-username-password-attribute-authenticator</url>
     <inceptionYear>2021</inceptionYear>
 
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/kilmajster/keycloak-username-password-attribute-authenticator/issues</url>
+        <url>https://github.com/perlbot/keycloak-username-password-attribute-authenticator/issues</url>
     </issueManagement>
 
     <licenses>
         <license>
             <name>MIT</name>
-            <url>https://github.com/kilmajster/keycloak-username-password-attribute-authenticator/blob/main/LICENSE</url>
+            <url>https://github.com/perlbot/keycloak-username-password-attribute-authenticator/blob/main/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -39,22 +39,14 @@
 
     <ciManagement>
         <system>Github</system>
-        <url>https://github.com/kilmajster/keycloak-username-password-attribute-authenticator/actions</url>
+        <url>https://github.com/perlbot/keycloak-username-password-attribute-authenticator/actions</url>
     </ciManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/kilmajster/keycloak-username-password-attribute-authenticator.git</connection>
-        <developerConnection>scm:git:ssh://github.com:kilmajster/keycloak-username-password-attribute-authenticator.git</developerConnection>
-        <url>http://github.com/kilmajster/keycloak-username-password-attribute-authenticator</url>
+        <connection>scm:git:git://github.com/perlbot/keycloak-username-password-attribute-authenticator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:perlbot/keycloak-username-password-attribute-authenticator.git</developerConnection>
+        <url>http://github.com/perlbot/keycloak-username-password-attribute-authenticator</url>
     </scm>
-
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <name>Central Repository OSSRH</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -201,71 +193,6 @@
                         <configuration>
                             <includes>**/CucumberConfig.java</includes>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>ossrh</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${maven-compiler-plugin.version}</version>
-                        <configuration>
-                            <source>${maven.compiler.source}</source>
-                            <target>${maven.compiler.target}</target>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
-                        <configuration>
-                            <sourcepath>src/main/java</sourcepath>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven-source-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
-                        <configuration>
-                            <gpgArguments>
-                                <arg>--pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
