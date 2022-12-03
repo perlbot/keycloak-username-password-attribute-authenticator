@@ -10,15 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Maven Central Repository
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-
       - name: Build a project & run unit tests
         run: mvn -B -ntp package
 
@@ -27,23 +18,6 @@ jobs:
 
       - name: Set version from git tag
         run: mvn -B -ntp versions:set -DgenerateBackupPoms=false -DnewVersion="$TAG"
-
-      - name: Import GPG key
-        run: |
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
-
-      - name: Publish maven package
-        run: |
-          mvn \
-          --no-transfer-progress \
-          --batch-mode \
-          -D gpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-          -P ossrh \
-          clean deploy
-        env:
-          MAVEN_USERNAME: kilmajster
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: Add jar to Github Release
         uses: svenstaro/upload-release-action@v2
@@ -54,23 +28,22 @@ jobs:
           asset_name: keycloak-username-password-attribute-authenticator-${{ env.TAG }}.jar
           tag: ${{ github.ref }}
 
-      - name: Build Docker init container
-        run: |
-          docker build \
-          --build-arg VERSION="$TAG" \
-          -f src/main/docker/initContainer.Dockerfile \
-          -t kilmajster/keycloak-username-password-attribute-authenticator:"$TAG" \
-          -t kilmajster/keycloak-username-password-attribute-authenticator:latest \
-          .
+            #      - name: Build Docker init container
+            #        run: |
+            #          docker build \
+            #          --build-arg VERSION="$TAG" \
+            #          -f src/main/docker/initContainer.Dockerfile \
+            #          -t perlbot/keycloak-username-password-attribute-authenticator:"$TAG" \
+            #          -t perlbot/keycloak-username-password-attribute-authenticator:latest .
 
-      - name: Log into Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: kilmajster
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Push tagged Docker image
-        run: docker push kilmajster/keycloak-username-password-attribute-authenticator:"$TAG"
-
-      - name: Push latest Docker image
-        run: docker push kilmajster/keycloak-username-password-attribute-authenticator:latest
+          #      - name: Log into Docker Hub
+          #        uses: docker/login-action@v1
+          #        with:
+          #          username: kilmajster
+          #          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          #
+          #      - name: Push tagged Docker image
+          #        run: docker push kilmajster/keycloak-username-password-attribute-authenticator:"$TAG"
+          #
+          #      - name: Push latest Docker image
+          #        run: docker push kilmajster/keycloak-username-password-attribute-authenticator:latest
